@@ -1,16 +1,20 @@
 "use client";
-// 注意：這裡將 AccountGui 改為最新的官方名稱 AuthCard
+
+// 導入核心樣式檔，解決介面「長壞掉」的問題
+import "@account-kit/react/styles.css";
 import { 
   AlchemyAccountsUIConfig, 
   createConfig, 
   AlchemyAccountProvider,
-  AuthCard // 👈 這裡做了更換，確保相容性
+  AuthCard 
 } from "@account-kit/react";
 import { sepolia, alchemy } from "@account-kit/infra";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
+// 初始化 QueryClient
 const queryClient = new QueryClient();
 
+// UI 設定：定義登入選項
 const uiConfig: AlchemyAccountsUIConfig = {
   illustrationStyle: "filled",
   auth: {
@@ -23,6 +27,7 @@ const uiConfig: AlchemyAccountsUIConfig = {
   },
 };
 
+// 基礎設施設定：串接 Alchemy API
 const config = createConfig({
   transport: alchemy({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "" }),
   chain: sepolia,
@@ -34,9 +39,15 @@ export default function Home() {
   return (
     <QueryClientProvider client={queryClient}>
       <AlchemyAccountProvider config={config} queryClient={queryClient}>
-        <main style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100vh", backgroundColor: "#0f172a" }}>
+        <main style={{ 
+          display: "flex", 
+          justifyContent: "center", 
+          alignItems: "center", 
+          minHeight: "100vh", 
+          backgroundColor: "#0f172a",
+          padding: "20px"
+        }}>
           <div style={{ width: "100%", maxWidth: "450px" }}>
-            {/* 使用 AuthCard 顯示漂亮封面 */}
             <AuthCard /> 
           </div>
         </main>
