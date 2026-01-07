@@ -9,9 +9,13 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@alchemy/aa-accounts": "^3.19.0",
+    "@alchemy/aa-alchemy": "^3.19.0",
+    "@alchemy/aa-core": "^3.19.0",
     "next": "16.1.1",
     "react": "19.2.3",
-    "react-dom": "19.2.3"
+    "react-dom": "19.2.3",
+    "viem": "^2.43.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

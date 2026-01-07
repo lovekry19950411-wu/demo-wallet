@@ -1,36 +1,18 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 ERC-4337 智能錢包展示專案 (Demo Wallet)
 
-## Getting Started
+這是一個基於 **帳戶抽象化 (Account Abstraction)** 技術開發的 Web3 錢包原型。
 
-First, run the development server:
+## 🌟 核心亮點
+* **一鍵生成**：無需複雜私鑰管理，點擊即可生成唯一的智慧合約地址。
+* **底層對接**：真實接入 **Optimism Sepolia** 區塊鏈環境。
+* **專業架構**：使用 Alchemy AA SDK 構建，具備商用擴展潛力。
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🛠️ 技術棧 (Tech Stack)
+* **前端**: Next.js 15 (App Router)
+* **Web3**: Alchemy AA SDK (@alchemy/aa-accounts)
+* **網路**: Optimism Sepolia Testnet
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📈 募資演示說明
+本專案展示了 Web3 進入大規模應用（Mass Adoption）的技術路徑：
+1.  **解決門檻問題**：使用者體驗與傳統 App 無異。
+2.  **安全性提升**：基於合約的錢包邏輯，支援未來更複雜的安全驗證。
