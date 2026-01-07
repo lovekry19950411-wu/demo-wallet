@@ -1,12 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // 移除或修正報錯的 eslint 物件
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // 移除過時的 eslint 物件，保持最簡潔
   typescript: {
-    ignoreBuildErrors: true, // 強制忽略類型錯誤以完成部署
+    ignoreBuildErrors: true,
   }
 };
 
