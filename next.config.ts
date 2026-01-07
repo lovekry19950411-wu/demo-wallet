@@ -1,15 +1,13 @@
-/** @type {import('next').NextConfig} */
-const nextConfig = {
-  typescript: {
-    // !! 警告 !!
-    // 允許生產環境建置成功，即使專案有 TypeScript 錯誤。
-    // 這對 Demo 展示非常有用
-    ignoreBuildErrors: true,
-  },
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  // 移除或修正報錯的 eslint 物件
   eslint: {
-    // 順便忽略 lint 檢查，確保部署一路通暢
     ignoreDuringBuilds: true,
   },
+  typescript: {
+    ignoreBuildErrors: true, // 強制忽略類型錯誤以完成部署
+  }
 };
 
 export default nextConfig;
