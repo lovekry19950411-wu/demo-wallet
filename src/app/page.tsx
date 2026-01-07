@@ -24,7 +24,11 @@ const uiConfig: AlchemyAccountsUIConfig = {
 const config = createConfig({
   transport: alchemy({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "" }),
   chain: sepolia,
-  ssr: true,
+  ssr: true, // 確保 SSR 開啟以配合 Next.js
+  // 💡 增加這行設定，確保 Session 能夠在跳轉後被讀取
+  sessionConfig: {
+    expirationTimeMs: 1000 * 60 * 60 * 24, // 24小時有效
+  }
 }, uiConfig);
 
 // 核心元件：判斷顯示內容
