@@ -1,74 +1,42 @@
 "use client";
-
-import "@account-kit/react/styles.css";
-import { 
-  AlchemyAccountsUIConfig, 
-  createConfig, 
-  AlchemyAccountProvider,
-  AuthCard,
-  useUser // 👈 增加這個：用來獲取用戶登入狀態
-} from "@account-kit/react";
-import { sepolia, alchemy } from "@account-kit/infra";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
-
-const uiConfig: AlchemyAccountsUIConfig = {
-  illustrationStyle: "filled",
-  auth: {
-    sections: [[{"type":"email"}], [{"type":"passkey"},{"type":"social","authProviderId":"google","mode":"popup"}]],
-    addPasskeyOnSignup: false,
-  },
-};
-
-const config = createConfig({
-  transport: alchemy({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY || "" }),
-  chain: sepolia,
-  ssr: true, // 確保 SSR 開啟以配合 Next.js
-  // 💡 增加這行設定，確保 Session 能夠在跳轉後被讀取
-  sessionConfig: {
-    expirationTimeMs: 1000 * 60 * 60 * 24, // 24小時有效
-  }
-}, uiConfig);
-
-// 核心元件：判斷顯示內容
-function WalletDashboard() {
-  const user = useUser(); // 👈 檢查 SDK 裡是否有登入的用戶資訊
-
-  return (
-    <main style={{ 
-      display: "flex", 
-      justifyContent: "center", 
-      alignItems: "center", 
-      minHeight: "100vh", 
-      backgroundColor: "#0f172a", 
-      color: "white" 
-    }}>
-      {user ? (
-        // 🥳 登入成功：顯示你的錢包地址
-        <div style={{ textAlign: "center", padding: "20px", border: "1px solid #334155", borderRadius: "12px" }}>
-          <h1 style={{ color: "#10b981" }}>✅ 登入成功！</h1>
-          <p style={{ marginTop: "10px" }}>您的智能錢包地址：</p>
-          <code style={{ background: "#000", padding: "10px", borderRadius: "6px", display: "block", marginTop: "10px" }}>
-            {user.address}
-          </code>
-        </div>
-      ) : (
-        // 🔒 未登入：顯示登入卡片
-        <div style={{ width: "100%", maxWidth: "450px" }}>
-          <AuthCard />
-        </div>
-      )}
-    </main>
-  );
-}
+import { useUser, useSmartAccountClient, useSendUserOperation } from "@account-kit/react";
 
 export default function Home() {
+  const user = useUser();
+  const { client } = useSmartAccountClient({ type: "LightAccount" });
+
+  const { sendUserOperation, isSendingUserOperation } = useSendUserOperation({
+    client,
+    onSuccess: ({ hash }) => alert("MINT 成功！交易雜湊: " + hash),
+    onError: (error) => alert("失敗: " + error.message),
+  });
+
+  const handleMint = () => {
+    sendUserOperation({
+      uo: {
+        target: "0x1758d607223594191370258759325996614457e5", // Sepolia 測試 NFT 合約
+        data: "0x1249c58b", // Mint 函數編碼
+      },
+    });
+  };
+
   return (
-    <QueryClientProvider client={queryClient}>
-      <AlchemyAccountProvider config={config} queryClient={queryClient}>
-        <WalletDashboard />
-      </AlchemyAccountProvider>
-    </QueryClientProvider>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-black text-white p-24">
+      {user ? (
+        <div className="text-center space-y-6">
+          <h1 className="text-2xl font-bold text-blue-400">智能錢包已就緒</h1>
+          <p className="text-xs font-mono text-gray-500">{user.address}</p>
+          <button 
+            onClick={handleMint}
+            disabled={isSendingUserOperation}
+            className="px-10 py-5 bg-blue-600 rounded-2xl font-black text-xl hover:bg-blue-500 transition-all disabled:opacity-50"
+          >
+            {isSendingUserOperation ? "正在發送交易..." : "立即免 Gas Mint NFT"}
+          </button>
+        </div>
+      ) : (
+        <p className="animate-pulse">請在網頁完成登入...</p>
+      )}
+    </main>
   );
 }
