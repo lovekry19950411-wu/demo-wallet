@@ -1,4 +1,4 @@
-import { config, queryClient } from "@/config/accountKit"; 
+import { config, queryClient } from "../config/accountKit"; 
 import { AlchemyAccountProvider } from "@account-kit/react";
 import { QueryClientProvider } from "@tanstack/react-query";
 import "./globals.css";
